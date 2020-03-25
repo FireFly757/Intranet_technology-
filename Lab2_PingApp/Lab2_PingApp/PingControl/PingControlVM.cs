@@ -46,7 +46,7 @@ namespace Lab2_PingApp.PingControl
             // The data can go through 64 gateways or routers
             // before it is destroyed, and the data packet
             // cannot be fragmented.
-            PingOptions options = new PingOptions(64, true);
+            PingOptions options = new PingOptions(62, true);
 
             Console.WriteLine("Time to live: {0}", options.Ttl);
             Console.WriteLine("Don't fragment: {0}", options.DontFragment);
@@ -63,7 +63,8 @@ namespace Lab2_PingApp.PingControl
             Console.WriteLine("Ping example completed.");
         }
 
-        private void PingCompletedCallback(object sender, PingCompletedEventArgs e)
+        public  void PingCompletedCallback(object sender, PingCompletedEventArgs e)
+
         {
             // If the operation was canceled, display a message to the user.
             if (e.Cancelled)
@@ -94,12 +95,12 @@ namespace Lab2_PingApp.PingControl
             ((AutoResetEvent)e.UserState).Set();
         }
 
+
         public void DisplayReply(PingReply reply)
         {
             if (reply == null)
                 return;
 
-            Console.WriteLine("ping status: {0}", reply.Status);
             if (reply.Status == IPStatus.Success)
             {
                 var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
