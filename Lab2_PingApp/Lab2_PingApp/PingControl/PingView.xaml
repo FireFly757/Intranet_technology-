@@ -18,7 +18,7 @@
         <Label Grid.Row="1" Content="Здесь будут другие настройки" />
         <Button Grid.Row="2"
                 Content="Запрос"
-				Command="{Binding Path=sendRequestCommand}" Margin="200,2"/>
+				Command="{Binding Path=SendRequestCommand}" Margin="200,2"/>
         <ListView ItemsSource="{Binding Path=Requests}" Grid.Row="3" >
             <ListView.View>
                 <GridView>

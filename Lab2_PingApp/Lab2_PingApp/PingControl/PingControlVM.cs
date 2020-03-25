@@ -18,6 +18,7 @@ namespace Lab2_PingApp.PingControl
         public PingControlVM()
         {
             sendRequestCommand = new RelayCommand(SendRequest);
+            requests = new ObservableCollection<RequestItem> { };
         }
 
         private void SendRequest(object obj)
@@ -58,17 +59,17 @@ namespace Lab2_PingApp.PingControl
             // Prevent this example application from ending.
             // A real application should do something useful
             // when possible.
-            waiter.WaitOne();
+            //waiter.WaitOne();
             Console.WriteLine("Ping example completed.");
         }
 
-        private static void PingCompletedCallback(object sender, PingCompletedEventArgs e)
+        private void PingCompletedCallback(object sender, PingCompletedEventArgs e)
         {
             // If the operation was canceled, display a message to the user.
             if (e.Cancelled)
             {
-                Console.WriteLine("Ping canceled.");
-
+                var requestItem = new RequestItem("Ping canceled.", -1);
+                requests.Insert(0, requestItem);
                 // Let the main thread resume. 
                 // UserToken is the AutoResetEvent object that the main thread 
                 // is waiting for.
@@ -78,9 +79,9 @@ namespace Lab2_PingApp.PingControl
             // If an error occurred, display the exception to the user.
             if (e.Error != null)
             {
-                Console.WriteLine("Ping failed:");
-                Console.WriteLine(e.Error.ToString());
-
+                var requestItem = new RequestItem("Ping failed", -1);
+                requests.Insert(0, requestItem);
+                //Console.WriteLine(e.Error.ToString());
                 // Let the main thread resume. 
                 ((AutoResetEvent)e.UserState).Set();
             }
@@ -93,7 +94,7 @@ namespace Lab2_PingApp.PingControl
             ((AutoResetEvent)e.UserState).Set();
         }
 
-        public static void DisplayReply(PingReply reply)
+        public void DisplayReply(PingReply reply)
         {
             if (reply == null)
                 return;
@@ -101,11 +102,13 @@ namespace Lab2_PingApp.PingControl
             Console.WriteLine("ping status: {0}", reply.Status);
             if (reply.Status == IPStatus.Success)
             {
-                Console.WriteLine("Address: {0}", reply.Address.ToString());
-                Console.WriteLine("RoundTrip time: {0}", reply.RoundtripTime);
-                Console.WriteLine("Time to live: {0}", reply.Options.Ttl);
-                Console.WriteLine("Don't fragment: {0}", reply.Options.DontFragment);
-                Console.WriteLine("Buffer size: {0}", reply.Buffer.Length);
+                var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
+                requests.Insert(0, requestItem);
+                //Console.WriteLine("Address: {0}", reply.Address.ToString());
+                //Console.WriteLine("RoundTrip time: {0}", reply.RoundtripTime);
+                //Console.WriteLine("Time to live: {0}", reply.Options.Ttl);
+                //Console.WriteLine("Don't fragment: {0}", reply.Options.DontFragment);
+                //Console.WriteLine("Buffer size: {0}", reply.Buffer.Length);
             }
         }
 
