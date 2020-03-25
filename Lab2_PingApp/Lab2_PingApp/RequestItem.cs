@@ -9,9 +9,9 @@ namespace Lab2_PingApp
     class RequestItem
     {
         public string IpAddress { get; set; }
-        public int RoadtripTime { get; set; }
+        public long RoadtripTime { get; set; }
 
-        public RequestItem(string ipAddress, int roadtripTime)
+        public RequestItem(string ipAddress, long roadtripTime)
         {
             IpAddress = ipAddress;
             RoadtripTime = roadtripTime;
