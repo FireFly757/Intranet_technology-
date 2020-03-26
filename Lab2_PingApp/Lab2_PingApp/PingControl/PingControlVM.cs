@@ -36,7 +36,11 @@ namespace Lab2_PingApp.PingControl
             pingSender.PingCompleted += new PingCompletedEventHandler(PingCompletedCallback);
 
             // Create a buffer of 32 bytes of data to be transmitted.
-            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            string data = "";
+            for(int i=0; i<BufferSize; i++)
+            {
+                data += "a";
+            }
             byte[] buffer = Encoding.ASCII.GetBytes(data);
 
             // Wait 12 seconds for a reply.
@@ -54,8 +58,11 @@ namespace Lab2_PingApp.PingControl
             // Send the ping asynchronously.
             // Use the waiter as the user token.
             // When the callback completes, it can wake up this thread.
+            //for(int i=0; i < RequestsNumber; i++)
+            //{
+            //    pingSender.SendAsync(who, timeout, buffer, options, waiter);
+            //}
             pingSender.SendAsync(who, timeout, buffer, options, waiter);
-
             // Prevent this example application from ending.
             // A real application should do something useful
             // when possible.
@@ -124,6 +131,40 @@ namespace Lab2_PingApp.PingControl
                 OnPropertyChanged("Address");
             }
         }
+
+        private int bufferSize = 32;
+        public int BufferSize
+        {
+            get { return bufferSize; }
+            set
+            {
+                bufferSize = value;
+                OnPropertyChanged("BufferSize");
+            }
+        }
+
+        private int requestsNumber = 0;
+        public int RequestsNumber
+        {
+            get { return requestsNumber; }
+            set
+            {
+                requestsNumber = value;
+                OnPropertyChanged("RequestsNumber");
+            }
+        }
+
+        private bool isFragmentation = true;
+        public bool IsFragmentation
+        {
+            get { return isFragmentation; }
+            set
+            {
+                isFragmentation = value;
+                OnPropertyChanged("IsFragmentation");
+            }
+        }
+
 
         private ObservableCollection<RequestItem> requests;
         public ObservableCollection<RequestItem> Requests
