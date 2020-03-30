@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Net.NetworkInformation;
+using System.Windows;
 
 namespace Lab2_PingApp.PingControl
 {
@@ -27,13 +28,6 @@ namespace Lab2_PingApp.PingControl
                 throw new ArgumentException("Ping needs a host or IP Address.");
 
             string who = Address;
-            AutoResetEvent waiter = new AutoResetEvent(false);
-
-            Ping pingSender = new Ping();
-
-            // When the PingCompleted event is raised,
-            // the PingCompletedCallback method is called.
-            pingSender.PingCompleted += new PingCompletedEventHandler(PingCompletedCallback);
 
             // Create a buffer of 32 bytes of data to be transmitted.
             string data = "";
@@ -55,71 +49,24 @@ namespace Lab2_PingApp.PingControl
             Console.WriteLine("Time to live: {0}", options.Ttl);
             Console.WriteLine("Don't fragment: {0}", options.DontFragment);
 
-            // Send the ping asynchronously.
-            // Use the waiter as the user token.
-            // When the callback completes, it can wake up this thread.
-            //for(int i=0; i < RequestsNumber; i++)
-            //{
-            //    pingSender.SendAsync(who, timeout, buffer, options, waiter);
-            //}
-            pingSender.SendAsync(who, timeout, buffer, options, waiter);
-            // Prevent this example application from ending.
-            // A real application should do something useful
-            // when possible.
-            //waiter.WaitOne();
-            Console.WriteLine("Ping example completed.");
+            Pings pings = new Pings(who, timeout, buffer, options, 4);
+            pings.RequestCompleted += RequestCompleted;
+            pings.SendRequests();
+            //Thread pingThread = new Thread(new ThreadStart(pings.SendRequests));
+            //pingThread.Start();
         }
 
-        public  void PingCompletedCallback(object sender, PingCompletedEventArgs e)
-
+        private void RequestCompleted(RequestItem requestItem)
         {
-            // If the operation was canceled, display a message to the user.
-            if (e.Cancelled)
+            try
             {
-                var requestItem = new RequestItem("Ping canceled.", -1);
                 requests.Insert(0, requestItem);
-                // Let the main thread resume. 
-                // UserToken is the AutoResetEvent object that the main thread 
-                // is waiting for.
-                ((AutoResetEvent)e.UserState).Set();
             }
-
-            // If an error occurred, display the exception to the user.
-            if (e.Error != null)
+            catch
             {
-                var requestItem = new RequestItem("Ping failed", -1);
-                requests.Insert(0, requestItem);
-                //Console.WriteLine(e.Error.ToString());
-                // Let the main thread resume. 
-                ((AutoResetEvent)e.UserState).Set();
-            }
-
-            PingReply reply = e.Reply;
-
-            DisplayReply(reply);
-
-            // Let the main thread resume.
-            ((AutoResetEvent)e.UserState).Set();
-        }
-
-
-        public void DisplayReply(PingReply reply)
-        {
-            if (reply == null)
-                return;
-
-            if (reply.Status == IPStatus.Success)
-            {
-                var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
-                requests.Insert(0, requestItem);
-                //Console.WriteLine("Address: {0}", reply.Address.ToString());
-                //Console.WriteLine("RoundTrip time: {0}", reply.RoundtripTime);
-                //Console.WriteLine("Time to live: {0}", reply.Options.Ttl);
-                //Console.WriteLine("Don't fragment: {0}", reply.Options.DontFragment);
-                //Console.WriteLine("Buffer size: {0}", reply.Buffer.Length);
+                MessageBox.Show("Ошибка при заполнение таблицы");
             }
         }
-
 
         private String address;
         public String Address
