@@ -4,29 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lab2_PingApp.PingControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="500"
-             d:DataContext="{d:DesignInstance local:PingControlVM}">
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:PingControlVM}" >
     <Grid Background="Lavender">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" MinHeight="27" />
-            <RowDefinition Height="*" MinHeight="55" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0"  Text="{Binding Address}"/>
-        <Label Grid.Row="1" Content="Здесь будут другие настройки" />
-        <Label Grid.Row="2" Content="Размер буфера отправки: " />
-        <TextBox Grid.Row="2"  Text="{Binding BufferSize}" Width="170"/>
-        <CheckBox Grid.Row="3" Name="linkText"  IsChecked="{Binding IsFragmentation}" Content="Фрагментацию в пакете"/>
-        <TextBox Grid.Row="4"  Text="{Binding RequestsNumber}"/>
-        <Button Grid.Row="5"
-                Content="Запрос"
-				Command="{Binding Path=SendRequestCommand}" Margin="200,2"/>
-        <ListView ItemsSource="{Binding Path=Requests}" Grid.Row="6" >
+        <CheckBox Grid.Row="1" Name="linkText"  IsChecked="{Binding IsFragmentation}" Content="Package Fragmentation"/>
+        <Label Grid.Row="2" Content="Buffer size: " Margin="49,0,0,0"/>
+        <TextBox Grid.Row="2"  Text="{Binding BufferSize}" Margin="210,0,200,0" />
+        <Label Grid.Row="3" Content="TTL: " Margin="49,0,0,0"/>
+        <TextBox Grid.Row="3"  Text="{Binding TimeToLife}" Margin="210,0,200,0"/>
+        <Label Grid.Row="4" Content="Type of Service: " Margin="49,0,0,0" />
+        <TextBox Grid.Row="4"  Text="{Binding ToS}" Margin="210,0,200,0"/>
+        <Label Grid.Row="5" Content="Number of requests: " Margin="49,0,0,0" />
+        <TextBox Grid.Row="5"  Text="{Binding RequestsNumber}" Margin="210,0,200,0"/>
+        <Label Grid.Row="6" Content="Timeout: " Margin="49,0,0,0"/>
+        <TextBox Grid.Row="6"  Text="{Binding Timeout}" Margin="210,0,200,0"/>
+        <Button Grid.Row="7"
+                Content="Request"
+				Command="{Binding Path=SendRequestCommand}" Margin="200,2,182,0"/>
+        <Label Grid.Row="8" Content="Статистика"/>
+        <TextBlock Grid.Row="9" Text="{Binding Path=StatisticMessage }"/>
+        <ListView ItemsSource="{Binding Path=Requests}" Grid.Row="10" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="300" Header="IP address" DisplayMemberBinding="{Binding Path=IpAddress}"/>

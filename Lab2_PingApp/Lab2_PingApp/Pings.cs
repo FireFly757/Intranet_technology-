@@ -9,39 +9,38 @@ namespace Lab2_PingApp
 {
     class Pings
     {
-        public Pings(string address, int timeout, byte[] buffer, PingOptions options, int requestNum)
+        public Pings(int requestNum)
         {
-            Address = address;
-            Timeout = timeout;
-            Buffer = buffer;
-            Options = options;
+            //Address = address;
+            //Timeout = timeout;
+            //Buffer = buffer;
+            //Options = options;
             RequestNum = requestNum;
             RoundtripTimeList = new List<long>();
         }
 
-        private string Address { get; set; }
-        private int Timeout { get; set; }
-        private byte[] Buffer { get; set; }
-        private PingOptions Options { get; set; }
+        //private string Address { get; set; }
+        //private int Timeout { get; set; }
+        //private byte[] Buffer { get; set; }
+        //private PingOptions Options { get; set; }
         private int RequestNum { get; set; }
         private List<long> RoundtripTimeList { get; set; }
         private int LostPackageNum { get; set; }
 
         public event Action<RequestItem> RequestCompleted;
-        public void SendRequests()
+        public async void SendRequests(string address, int timeout, byte[] buffer, PingOptions options)
         {
 
-            var t = Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(() =>
             {
                 Ping pingSender = new Ping();
                 for (int i = 0; i < RequestNum; i++)
                 {
-                    PingReply reply = pingSender.Send(Address, Timeout, Buffer, Options);
+                    PingReply reply = pingSender.Send(address, timeout, buffer, options);
                     if (reply.Status == IPStatus.Success)
                     {
                         RoundtripTimeList.Add(reply.RoundtripTime);
                         var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
-                        //Вызываем событие, которое передает requestItem
                         RequestCompleted.Invoke(requestItem);
                     }
                     else
@@ -54,6 +53,7 @@ namespace Lab2_PingApp
 
             });
             //Тут событие, которое передает информацию о завершение 
+            //И передает статискику 
         }
 
         public int GetNumOfLostPackage()

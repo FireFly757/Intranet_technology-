@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Net.NetworkInformation;
 using System.Windows;
 
@@ -28,39 +28,30 @@ namespace Lab2_PingApp.PingControl
                 throw new ArgumentException("Ping needs a host or IP Address.");
 
             string who = Address;
-
-            // Create a buffer of 32 bytes of data to be transmitted.
             string data = "";
             for(int i=0; i<BufferSize; i++)
             {
                 data += "a";
             }
             byte[] buffer = Encoding.ASCII.GetBytes(data);
+            int timeout = Timeout;
+            PingOptions options = new PingOptions(TimeToLife, IsFragmentation);
+            int numOfRequsts = RequestsNumber;
 
-            // Wait 12 seconds for a reply.
-            int timeout = 12000;
-
-            // Set options for transmission:
-            // The data can go through 64 gateways or routers
-            // before it is destroyed, and the data packet
-            // cannot be fragmented.
-            PingOptions options = new PingOptions(62, true);
-
-            Console.WriteLine("Time to live: {0}", options.Ttl);
-            Console.WriteLine("Don't fragment: {0}", options.DontFragment);
-
-            Pings pings = new Pings(who, timeout, buffer, options, 4);
+            Pings pings = new Pings(numOfRequsts);
             pings.RequestCompleted += RequestCompleted;
-            pings.SendRequests();
-            //Thread pingThread = new Thread(new ThreadStart(pings.SendRequests));
-            //pingThread.Start();
+            requests.Clear();
+            pings.SendRequests(address, timeout, buffer, options);
         }
 
-        private void RequestCompleted(RequestItem requestItem)
+        public void RequestCompleted(RequestItem requestItem)
         {
             try
             {
-                requests.Insert(0, requestItem);
+                Application.Current.Dispatcher?.Invoke(() =>
+                {
+                    requests.Insert(0, requestItem);
+                });
             }
             catch
             {
@@ -90,7 +81,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int requestsNumber = 0;
+        private int requestsNumber = 4;
         public int RequestsNumber
         {
             get { return requestsNumber; }
@@ -109,6 +100,52 @@ namespace Lab2_PingApp.PingControl
             {
                 isFragmentation = value;
                 OnPropertyChanged("IsFragmentation");
+            }
+        }
+
+        private int timeToLife = 52;
+        public int TimeToLife
+        {
+            get { return timeToLife; }
+            set
+            {
+                timeToLife = value;
+                OnPropertyChanged("TimeToLife");
+            }
+        }
+
+        private int timeout = 5;
+        public int Timeout
+        {
+            get { return timeout; }
+            set
+            {
+                timeout = value;
+                OnPropertyChanged("Timeout");
+            }
+        }
+
+        private int typeOfService;
+        public int TypeOfService
+        {
+            get { return typeOfService; }
+            set
+            {
+                typeOfService = value;
+                OnPropertyChanged("TypeOfService");
+            }
+        }
+
+
+        private string statisticMessage;
+        public string StatisticMessage
+        {
+
+            get { return statisticMessage; }
+            set
+            {
+                statisticMessage = value;
+                OnPropertyChanged("StatisticMessage");
             }
         }
 

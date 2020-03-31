@@ -1,3 +1,6 @@
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.exe.config
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.exe
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.pdb
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.csprojAssemblyReference.cache
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\MainWindow.g.cs
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\PingControl\PingView.g.cs
@@ -5,9 +8,6 @@ C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp_MarkupCompile.cache
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp_MarkupCompile.lref
-C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.exe.config
-C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.exe
-C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\Lab2_PingApp.pdb
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\MainWindow.baml
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\PingControl\PingView.baml
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.g.resources
