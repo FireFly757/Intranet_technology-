@@ -11,18 +11,12 @@ namespace Lab2_PingApp
     {
         public Pings(int requestNum)
         {
-            //Address = address;
-            //Timeout = timeout;
-            //Buffer = buffer;
-            //Options = options;
+            
             RequestNum = requestNum;
             RoundtripTimeList = new List<long>();
         }
 
-        //private string Address { get; set; }
-        //private int Timeout { get; set; }
-        //private byte[] Buffer { get; set; }
-        //private PingOptions Options { get; set; }
+    
         private int RequestNum { get; set; }
         private List<long> RoundtripTimeList { get; set; }
         private int LostPackageNum { get; set; }

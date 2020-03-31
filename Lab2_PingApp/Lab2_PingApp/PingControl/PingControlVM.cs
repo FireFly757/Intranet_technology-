@@ -124,7 +124,8 @@ namespace Lab2_PingApp.PingControl
                 OnPropertyChanged("Timeout");
             }
         }
-
+        
+        //Не нашел, как использовать эту настройку. Но пусть будет, раз есть в условиях лабы)
         private int typeOfService;
         public int TypeOfService
         {
