@@ -50,7 +50,7 @@ namespace Lab2_PingApp.PingControl
             {
                 Application.Current.Dispatcher?.Invoke(() =>
                 {
-                    requests.Insert(0, requestItem);
+                    Requests.Insert(0, requestItem);
                 });
             }
             catch

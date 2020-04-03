@@ -15,3 +15,10 @@ C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.csproj.GenerateResource.cache
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.exe
 C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.pdb
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\MaterialDesignColors.dll
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\MaterialDesignColors.pdb
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\App.baml
+C:\Users\Firefly\source\repos\Intranet_technology-\Lab2_PingApp\Lab2_PingApp\obj\Debug\Lab2_PingApp.csproj.CopyComplete

@@ -4,10 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lab2_PingApp.PingControl"
-             mc:Ignorable="d"
+             mc:Ignorable="d" 
+             FontSize="15"
+             FontWeight="Medium"
              d:DataContext="{d:DesignInstance local:PingControlVM}" >
     <Grid Background="Lavender">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -16,40 +25,44 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0"  Text="{Binding Address}"/>
-        <CheckBox Grid.Row="1" Name="linkText"  IsChecked="{Binding IsFragmentation}" Content="Package Fragmentation"/>
-        <Label Grid.Row="2" Content="Buffer size: " Margin="49,0,0,0"/>
-        <TextBox Grid.Row="2"  Text="{Binding BufferSize}" Margin="210,0,200,0" />
-        <Label Grid.Row="3" Content="TTL: " Margin="49,0,0,0"/>
-        <TextBox Grid.Row="3"  Text="{Binding TimeToLife}" Margin="210,0,200,0"/>
-        <Label Grid.Row="4" Content="Type of Service: " Margin="49,0,0,0" />
-        <TextBox Grid.Row="4"  Text="{Binding ToS}" Margin="210,0,200,0"/>
-        <Label Grid.Row="5" Content="Number of requests: " Margin="49,0,0,0" />
-        <TextBox Grid.Row="5"  Text="{Binding RequestsNumber}" Margin="210,0,200,0"/>
-        <Label Grid.Row="6" Content="Timeout: " Margin="49,0,0,0"/>
-        <TextBox Grid.Row="6"  Text="{Binding Timeout}" Margin="210,0,200,0"/>
-        <Button Grid.Row="7"
+
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Address: " />
+        <TextBox  Grid.Row="1" Grid.Column="2" Text="{Binding Address}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Buffer size: "/>
+        <TextBox Grid.Row="2" Grid.Column="2"  Text="{Binding BufferSize}" />
+
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Time To Life: " />
+        <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding TimeToLife}" />
+
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Type of Service: "  />
+        <TextBox Grid.Row="4"  Grid.Column="2" Text="{Binding ToS}" />
+
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Number of requests: " />
+        <TextBox Grid.Row="5"  Grid.Column="2" Text="{Binding RequestsNumber}"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Timeout: "/>
+        <TextBox Grid.Row="6"  Grid.Column="2" Text="{Binding Timeout}"/>
+
+        <CheckBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Name="linkText"  IsChecked="{Binding IsFragmentation}" 
+                  Content="Package Fragmentation" Margin="10"/>
+
+        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"
                 Content="Request"
-				Command="{Binding Path=SendRequestCommand}" Margin="200,2,182,0"/>
-        <Label Grid.Row="8" Content="Статистика"/>
-        <TextBlock Grid.Row="9" Text="{Binding Path=StatisticMessage }"/>
-        <ListView ItemsSource="{Binding Path=Requests}" Grid.Row="10" >
+				Command="{Binding Path=SendRequestCommand}" />
+
+        <TextBlock Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="2" Text="Статистика" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+
+        <ListView Grid.Row="10"  Grid.Column="1" ItemsSource="{Binding Path=Requests}" Grid.ColumnSpan="2" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="300" Header="IP address" DisplayMemberBinding="{Binding Path=IpAddress}"/>
-                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Path=RoadtripTime}" Width="200"/>
+                    <GridViewColumn Header="IP address" DisplayMemberBinding="{Binding Path=IpAddress}" Width="Auto"/>
+                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Path=RoadtripTime}"  Width="Auto" />
                 </GridView>
             </ListView.View>
         </ListView>
