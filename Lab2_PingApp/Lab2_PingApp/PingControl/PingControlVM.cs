@@ -24,9 +24,7 @@ namespace Lab2_PingApp.PingControl
 
         private void SendRequest(object obj)
         {
-            if ((string)obj == "")
-                throw new ArgumentException("Ping needs a host or IP Address.");
-
+            
             string who = Address;
             string data = "";
             for(int i=0; i<BufferSize; i++)
@@ -70,7 +68,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int bufferSize = 32;
+        private int bufferSize;
         public int BufferSize
         {
             get { return bufferSize; }
@@ -81,7 +79,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int requestsNumber = 4;
+        private int requestsNumber;
         public int RequestsNumber
         {
             get { return requestsNumber; }
@@ -103,7 +101,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int timeToLife = 52;
+        private int timeToLife;
         public int TimeToLife
         {
             get { return timeToLife; }
@@ -114,7 +112,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int timeout = 5;
+        private int timeout;
         public int Timeout
         {
             get { return timeout; }

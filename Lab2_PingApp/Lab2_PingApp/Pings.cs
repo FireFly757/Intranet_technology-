@@ -27,22 +27,42 @@ namespace Lab2_PingApp
 
             await Task.Factory.StartNew(() =>
             {
-                Ping pingSender = new Ping();
-                for (int i = 0; i < RequestNum; i++)
+                try
                 {
-                    PingReply reply = pingSender.Send(address, timeout, buffer, options);
-                    if (reply.Status == IPStatus.Success)
+                    Ping pingSender = new Ping();
+                    for (int i = 0; i < RequestNum; i++)
                     {
-                        RoundtripTimeList.Add(reply.RoundtripTime);
-                        var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
-                        RequestCompleted.Invoke(requestItem);
+                        PingReply reply = pingSender.Send(address, timeout, buffer, options);
+                        if (reply.Status == IPStatus.Success)
+                        {
+                            RoundtripTimeList.Add(reply.RoundtripTime);
+                            var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
+                            RequestCompleted.Invoke(requestItem);
+                        }
+                        else
+                        {
+                            LostPackageNum++;
+                            var requestItem = new RequestItem("Ping failed", -1);
+                            RequestCompleted.Invoke(requestItem);
+                        }
                     }
-                    else
-                    {
-                        LostPackageNum++;
-                        var requestItem = new RequestItem("Ping failed", -1);
-                        RequestCompleted.Invoke(requestItem);
-                    }
+
+
+                }
+                catch (System.Net.NetworkInformation.PingException)
+                {
+                    System.Windows.MessageBox.Show("Error sending request. Check the parameters are correct.", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+                catch(System.ArgumentNullException)
+                {
+                    System.Windows.MessageBox.Show("Not all parameters are entered for the request", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show("Some error sending request", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
 
             });

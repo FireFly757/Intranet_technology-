@@ -41,7 +41,7 @@
         <TextBox Grid.Row="3"  Grid.Column="2" Text="{Binding TimeToLife}" />
 
         <TextBlock Grid.Row="4" Grid.Column="1" Text="Type of Service: "  />
-        <TextBox Grid.Row="4"  Grid.Column="2" Text="{Binding ToS}" />
+        <TextBox Grid.Row="4"  Grid.Column="2" Text="{Binding TypeOfService}" />
 
         <TextBlock Grid.Row="5" Grid.Column="1" Text="Number of requests: " />
         <TextBox Grid.Row="5"  Grid.Column="2" Text="{Binding RequestsNumber}"/>
@@ -56,7 +56,7 @@
                 Content="Request"
 				Command="{Binding Path=SendRequestCommand}" />
 
-        <TextBlock Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="2" Text="Статистика" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="2" Text="Statistics" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center"/>
 
         <ListView Grid.Row="10"  Grid.Column="1" ItemsSource="{Binding Path=Requests}" Grid.ColumnSpan="2" >
             <ListView.View>
