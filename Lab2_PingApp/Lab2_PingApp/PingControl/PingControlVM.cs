@@ -53,7 +53,8 @@ namespace Lab2_PingApp.PingControl
             }
             catch
             {
-                MessageBox.Show("Ошибка при заполнение таблицы");
+                System.Windows.MessageBox.Show("Error filling table", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -68,7 +69,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int bufferSize;
+        private int bufferSize = 32;
         public int BufferSize
         {
             get { return bufferSize; }
@@ -79,7 +80,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int requestsNumber;
+        private int requestsNumber = 4;
         public int RequestsNumber
         {
             get { return requestsNumber; }
@@ -101,7 +102,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int timeToLife;
+        private int timeToLife = 52;
         public int TimeToLife
         {
             get { return timeToLife; }
@@ -112,7 +113,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int timeout;
+        private int timeout = 5;
         public int Timeout
         {
             get { return timeout; }
@@ -124,7 +125,7 @@ namespace Lab2_PingApp.PingControl
         }
         
         //Не нашел, как использовать эту настройку. Но пусть будет, раз есть в условиях лабы)
-        private int typeOfService;
+        private int typeOfService = 1;
         public int TypeOfService
         {
             get { return typeOfService; }
