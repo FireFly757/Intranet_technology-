@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Icon="pack://application:,,,/Resources/server.png"
-        Title="Ping Application" Height="550" Width="425" >
+        Title="Ping Application" Height="550" Width="470" >
     
     <Window.DataContext>
         <local:MainWindowVm/>

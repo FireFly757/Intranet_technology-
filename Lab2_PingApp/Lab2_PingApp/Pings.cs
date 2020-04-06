@@ -9,10 +9,8 @@ namespace Lab2_PingApp
 {
     class Pings
     {
-        public Pings(int requestNum)
+        public Pings()
         {
-            
-            RequestNum = requestNum;
             RoundtripTimeList = new List<long>();
         }
 
@@ -22,6 +20,7 @@ namespace Lab2_PingApp
         private int LostPackageNum { get; set; }
 
         public event Action<RequestItem> RequestCompleted;
+        public event Action AllRequestsCompleted;
         public async void SendRequests(string address, int timeout, byte[] buffer, PingOptions options)
         {
 
@@ -46,6 +45,7 @@ namespace Lab2_PingApp
                             RequestCompleted.Invoke(requestItem);
                         }
                     }
+                    AllRequestsCompleted.Invoke();
 
 
                 }
@@ -66,18 +66,22 @@ namespace Lab2_PingApp
                 }
 
             });
-            //Тут событие, которое передает информацию о завершение 
-            //И передает статискику  
         }
+
+        public void SetRequestNumber(int value)
+        {
+            RequestNum = value;
+        }
+
 
         public int GetNumOfLostPackage()
         {
             return LostPackageNum;
         }
 
-        public float GetLossesInProcent()
+        public double GetLossesInPercent()
         {
-            return ((RequestNum - LostPackageNum) / RequestNum) * 100;
+            return ((double)LostPackageNum * 100) / (double)RequestNum; ;
         }
 
         public double GetAverageRoundtripTime()
@@ -93,6 +97,13 @@ namespace Lab2_PingApp
         public long GetMinRoundtripTime()
         {
             return RoundtripTimeList.Min();
+        }
+
+        public void Clear()
+        {
+            RoundtripTimeList.Clear();
+            LostPackageNum = 0;
+            RequestNum = 0;
         }
     }
 }

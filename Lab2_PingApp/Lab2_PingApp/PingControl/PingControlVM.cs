@@ -20,26 +20,23 @@ namespace Lab2_PingApp.PingControl
         {
             sendRequestCommand = new RelayCommand(SendRequest);
             requests = new ObservableCollection<RequestItem> { };
+            pingRequests = new Pings();
+            PingRequests.RequestCompleted += RequestCompleted;
+            PingRequests.AllRequestsCompleted += AllRequestsCompleted;
         }
 
         private void SendRequest(object obj)
         {
-            
-            string who = Address;
             string data = "";
-            for(int i=0; i<BufferSize; i++)
+            for(int i=0; i < BufferSize; i++)
             {
                 data += "a";
             }
             byte[] buffer = Encoding.ASCII.GetBytes(data);
-            int timeout = Timeout;
             PingOptions options = new PingOptions(TimeToLife, IsFragmentation);
-            int numOfRequsts = RequestsNumber;
-
-            Pings pings = new Pings(numOfRequsts);
-            pings.RequestCompleted += RequestCompleted;
+            PingRequests.SetRequestNumber(RequestsNumber);
             requests.Clear();
-            pings.SendRequests(address, timeout, buffer, options);
+            PingRequests.SendRequests(Address, Timeout, buffer, options);
         }
 
         public void RequestCompleted(RequestItem requestItem)
@@ -54,8 +51,20 @@ namespace Lab2_PingApp.PingControl
             catch
             {
                 System.Windows.MessageBox.Show("Error filling table", "Error",
-                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                                                System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        public void AllRequestsCompleted()
+        {
+            SentPackages = RequestsNumber;
+            LostPackages = PingRequests.GetNumOfLostPackage();
+            LostInPercent = Math.Round(PingRequests.GetLossesInPercent(), 2);
+            ReceivedPackages = RequestsNumber - LostPackages;
+            MinTime = PingRequests.GetMinRoundtripTime();
+            MaxTime = PingRequests.GetMaxRoundtripTime();
+            AverageTime = Math.Round(PingRequests.GetAverageRoundtripTime(), 2);
+            PingRequests.Clear();
         }
 
         private String address;
@@ -102,7 +111,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
-        private int timeToLife = 52;
+        private int timeToLife = 56;
         public int TimeToLife
         {
             get { return timeToLife; }
@@ -124,7 +133,7 @@ namespace Lab2_PingApp.PingControl
             }
         }
         
-        //Не нашел, как использовать эту настройку. Но пусть будет, раз есть в условиях лабы)
+        
         private int typeOfService = 1;
         public int TypeOfService
         {
@@ -137,19 +146,93 @@ namespace Lab2_PingApp.PingControl
         }
 
 
-        private string statisticMessage;
-        public string StatisticMessage
-        {
+        //Поля для статистики 
 
-            get { return statisticMessage; }
+        private long minTime;
+        public long MinTime
+        {
+            get { return minTime; }
             set
             {
-                statisticMessage = value;
-                OnPropertyChanged("StatisticMessage");
+                minTime = value;
+                OnPropertyChanged("MinTime");
+            }
+            
+        }
+
+        private long maxTime;
+        public long MaxTime
+        {
+            get { return maxTime; }
+            set
+            {
+                maxTime = value;
+                OnPropertyChanged("MaxTime");
+            }
+
+        }
+
+        private double averageTime;
+        public double AverageTime
+        {
+            get { return averageTime; }
+            set
+            {
+                averageTime = value;
+                OnPropertyChanged("AverageTime");
+            }
+
+        }
+
+        //Добавил для того, чтобы в статистике был 0 в начале 
+        private int sentPackages;
+        public int SentPackages
+        {
+
+            get { return sentPackages; }
+            set
+            {
+                sentPackages = value;
+                OnPropertyChanged("SentPackages");
+            }
+        }
+
+        private int receivedPackages;
+        public int ReceivedPackages
+        {
+
+            get { return receivedPackages; }
+            set
+            {
+                receivedPackages = value;
+                OnPropertyChanged("ReceivedPackages");
+            }
+        }
+
+        private int lostPackages;
+        public int LostPackages
+        {
+
+            get { return lostPackages; }
+            set
+            {
+                lostPackages = value;
+                OnPropertyChanged("LostPackages");
             }
         }
 
 
+        private double lostInPercent;
+        public double LostInPercent
+        {
+
+            get { return lostInPercent; }
+            set
+            {
+                lostInPercent = value;
+                OnPropertyChanged("LostInPercent");
+            }
+        }
         private ObservableCollection<RequestItem> requests;
         public ObservableCollection<RequestItem> Requests
         {
@@ -158,6 +241,17 @@ namespace Lab2_PingApp.PingControl
             {
                 requests = value;
                 OnPropertyChanged("Requests");
+            }
+        }
+
+        private Pings pingRequests;
+        public Pings PingRequests
+        {
+            get { return pingRequests; }
+            set
+            {
+                pingRequests = value;
+                OnPropertyChanged("PingRequests");
             }
         }
 

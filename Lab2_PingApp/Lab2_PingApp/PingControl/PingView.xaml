@@ -13,6 +13,8 @@
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -20,7 +22,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -56,9 +57,7 @@
                 Content="Request"
 				Command="{Binding Path=SendRequestCommand}" />
 
-        <TextBlock Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="2" Text="Statistics" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center"/>
-
-        <ListView Grid.Row="10"  Grid.Column="1" ItemsSource="{Binding Path=Requests}" Grid.ColumnSpan="2" >
+        <ListView Grid.Row="9"  Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=Requests}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="IP address" DisplayMemberBinding="{Binding Path=IpAddress}" Width="Auto"/>
@@ -66,5 +65,53 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <!--Statistics display-->
+        <Grid Grid.Row="1" Grid.Column="4" Grid.RowSpan="7" Background="LightBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Statistics" FontSize="18" FontWeight="ExtraBold" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="2" Text="Packages" FontWeight="Bold" HorizontalAlignment="Center" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Sent: " />
+            <TextBlock  Grid.Row="2" Grid.Column="1" Text="{Binding SentPackages}"/>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Received: " />
+            <TextBlock  Grid.Row="3" Grid.Column="1" Text="{Binding ReceivedPackages}"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Lost: " />
+            <TextBlock  Grid.Row="4" Grid.Column="1" Text="{Binding LostPackages}"/>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Lost(%): " />
+            <TextBlock  Grid.Row="5" Grid.Column="1" Text="{Binding LostInPercent}"/>
+
+            <TextBlock Grid.Row="6" Grid.Column="0"  Grid.ColumnSpan="2" Text="Transmission time" FontWeight="Bold" HorizontalAlignment="Center"/>
+           
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Minimum: " />
+            <TextBlock  Grid.Row="7" Grid.Column="1" Text="{Binding MinTime}"/>
+
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Maximum: " />
+            <TextBlock  Grid.Row="8" Grid.Column="1" Text="{Binding MaxTime}"/>
+
+            <TextBlock Grid.Row="9" Grid.Column="0" Text="Average: " />
+            <TextBlock  Grid.Row="9" Grid.Column="1" Text="{Binding AverageTime}"/>
+        </Grid>
     </Grid>
 </UserControl>
