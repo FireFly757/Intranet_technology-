@@ -69,7 +69,7 @@ namespace Lab2_PingApp.PingControl
             SentPackages = PingRequests.GetRequestNumber();
             LostPackages = PingRequests.GetNumOfLostPackage();
             LostInPercent = Math.Round(PingRequests.GetLossesInPercent(), 2);
-            ReceivedPackages = RequestsNumber - LostPackages;
+            ReceivedPackages = SentPackages - LostPackages;
             MinTime = PingRequests.GetMinRoundtripTime();
             MaxTime = PingRequests.GetMaxRoundtripTime();
             AverageTime = Math.Round(PingRequests.GetAverageRoundtripTime(), 2);
