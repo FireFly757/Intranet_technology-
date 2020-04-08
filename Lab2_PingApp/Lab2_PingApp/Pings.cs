@@ -14,7 +14,7 @@ namespace Lab2_PingApp
             RoundtripTimeList = new List<long>();
         }
 
-    
+        public bool IsToContinueSending { get; set; }
         private int RequestNum { get; set; }
         private List<long> RoundtripTimeList { get; set; }
         private int LostPackageNum { get; set; }
@@ -64,13 +64,62 @@ namespace Lab2_PingApp
                     System.Windows.MessageBox.Show("Some error sending request", "Error",
                                                     System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 }
+            });
+        }
 
+
+        public async void SendRequestsUntilStopping(string address, int timeout, byte[] buffer, PingOptions options)
+        {
+
+            await Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    Ping pingSender = new Ping();
+                    while(IsToContinueSending)
+                    {
+                        PingReply reply = pingSender.Send(address, timeout, buffer, options);
+                        if (reply.Status == IPStatus.Success)
+                        {
+                            RoundtripTimeList.Add(reply.RoundtripTime);
+                            var requestItem = new RequestItem(reply.Address.ToString(), reply.RoundtripTime);
+                            RequestCompleted.Invoke(requestItem);
+                        }
+                        else
+                        {
+                            LostPackageNum++;
+                            var requestItem = new RequestItem("Ping failed", -1);
+                            RequestCompleted.Invoke(requestItem);
+                        }
+                        RequestNum++;
+                    }
+                    AllRequestsCompleted.Invoke();
+                }
+                catch (System.Net.NetworkInformation.PingException)
+                {
+                    System.Windows.MessageBox.Show("Error sending request. Check the parameters are correct.", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+                catch (System.ArgumentNullException)
+                {
+                    System.Windows.MessageBox.Show("Not all parameters are entered for the request", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
+                catch
+                {
+                    System.Windows.MessageBox.Show("Some error sending request", "Error",
+                                                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                }
             });
         }
 
         public void SetRequestNumber(int value)
         {
             RequestNum = value;
+        }
+        public int GetRequestNumber()
+        {
+            return RequestNum;
         }
 
 

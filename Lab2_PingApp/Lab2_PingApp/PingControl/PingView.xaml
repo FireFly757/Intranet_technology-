@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -50,14 +51,21 @@
         <TextBlock Grid.Row="6" Grid.Column="1" Text="Timeout: "/>
         <TextBox Grid.Row="6"  Grid.Column="2" Text="{Binding Timeout}"/>
 
-        <CheckBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Name="linkText"  IsChecked="{Binding IsFragmentation}" 
+        <CheckBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  IsChecked="{Binding IsFragmentation}" 
                   Content="Package Fragmentation" Margin="10"/>
+        <CheckBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Name="manualStopping" IsChecked="{Binding IsManualStopSending}" 
+                  Content="Manual stop sending" Margin="10"/>
 
-        <Button Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"
+        <Button Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"
                 Content="Request"
 				Command="{Binding Path=SendRequestCommand}" />
 
-        <ListView Grid.Row="9"  Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=Requests}">
+        <Button Grid.Row="9" Grid.Column="4"  Margin="10" IsEnabled="{Binding ElementName=manualStopping, Path=IsChecked}"
+                Background="LightCoral"
+                Content="Stop requests"
+				Command="{Binding Path=StopSendingRequestsCommand}"/>
+
+        <ListView Grid.Row="10"  Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding Path=Requests}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="IP address" DisplayMemberBinding="{Binding Path=IpAddress}" Width="Auto"/>

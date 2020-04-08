@@ -19,6 +19,7 @@ namespace Lab2_PingApp.PingControl
         public PingControlVM()
         {
             sendRequestCommand = new RelayCommand(SendRequest);
+            stopSendingRequestsCommand = new RelayCommand(StopSendingRequests);
             requests = new ObservableCollection<RequestItem> { };
             pingRequests = new Pings();
             PingRequests.RequestCompleted += RequestCompleted;
@@ -34,9 +35,17 @@ namespace Lab2_PingApp.PingControl
             }
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             PingOptions options = new PingOptions(TimeToLife, IsFragmentation);
-            PingRequests.SetRequestNumber(RequestsNumber);
             requests.Clear();
-            PingRequests.SendRequests(Address, Timeout, buffer, options);
+            if(IsManualStopSending)
+            {
+                PingRequests.IsToContinueSending = true;
+                PingRequests.SendRequestsUntilStopping(Address, Timeout, buffer, options);
+            }
+            else
+            {
+                PingRequests.SetRequestNumber(RequestsNumber);
+                PingRequests.SendRequests(Address, Timeout, buffer, options);
+            }
         }
 
         public void RequestCompleted(RequestItem requestItem)
@@ -57,7 +66,7 @@ namespace Lab2_PingApp.PingControl
 
         public void AllRequestsCompleted()
         {
-            SentPackages = RequestsNumber;
+            SentPackages = PingRequests.GetRequestNumber();
             LostPackages = PingRequests.GetNumOfLostPackage();
             LostInPercent = Math.Round(PingRequests.GetLossesInPercent(), 2);
             ReceivedPackages = RequestsNumber - LostPackages;
@@ -65,6 +74,11 @@ namespace Lab2_PingApp.PingControl
             MaxTime = PingRequests.GetMaxRoundtripTime();
             AverageTime = Math.Round(PingRequests.GetAverageRoundtripTime(), 2);
             PingRequests.Clear();
+        }
+
+        private void StopSendingRequests(object obj)
+        {
+            PingRequests.IsToContinueSending = false;
         }
 
         private String address;
@@ -110,6 +124,18 @@ namespace Lab2_PingApp.PingControl
                 OnPropertyChanged("IsFragmentation");
             }
         }
+
+        private bool isManualStopSending;
+        public bool IsManualStopSending
+        {
+            get { return isManualStopSending; }
+            set
+            {
+                isManualStopSending = value;
+                OnPropertyChanged("IsManualStopSending");
+            }
+        }
+
 
         private int timeToLife = 56;
         public int TimeToLife
@@ -266,6 +292,16 @@ namespace Lab2_PingApp.PingControl
             }
         }
 
+        private ICommand stopSendingRequestsCommand;
+        public ICommand StopSendingRequestsCommand
+        {
+            get { return stopSendingRequestsCommand; }
+            set
+            {
+                stopSendingRequestsCommand = value;
+                OnPropertyChanged("StopSendingRequestsCommand");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
