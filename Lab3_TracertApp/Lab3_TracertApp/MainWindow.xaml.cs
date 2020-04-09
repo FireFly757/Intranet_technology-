@@ -69,21 +69,18 @@ namespace Lab3_TracertApp
                         }
                         if (reply.Status == IPStatus.TtlExpired)
                         {
-                            var routeListItem = new RouteListItem(ttl, reply.RoundtripTime, reply.Address.ToString());
+                            
                             WriteToListBox($"[{ttl}]    Time: {stopwatch.ElapsedMilliseconds} ms    Route: {reply.Address} ");
-                            AddItemToTable(routeListItem);
                             continue;
                         }
                         if (reply.Status == IPStatus.TimedOut)
                         {
-                            //this would occour if it takes too long for the server to reply or if a server has the ICMP port closed (quite common for this).
                             WriteToListBox($"[{ttl}]  *    *    *");
                             var routeListItem = new RouteListItem(ttl, -1, "Timeout");
                             continue;
                         }
                         if (reply.Status == IPStatus.Success)
                         {
-                            //the ICMP packet has reached the destination (the hostname)
                             WriteToListBox($"Successful trace route to {address}  Total Time: {stopwatch.ElapsedMilliseconds} ms");
                             stopwatch.Stop();
                         }
@@ -93,7 +90,7 @@ namespace Lab3_TracertApp
             }
             catch
             {
-                System.Windows.MessageBox.Show("sError in input data", "Error",
+                System.Windows.MessageBox.Show("Error in input data", "Error",
                                                         System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
@@ -107,27 +104,25 @@ namespace Lab3_TracertApp
         }
 
 
-
-
         //Это для связи с таблицей, но что-то не пошло. Может когда-нибудь допилю 
-        public void AddItemToTable(RouteListItem routeListItem)
-        {
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                RouteList.Insert(0, routeListItem);
-            }));
-        }
+        //public void AddItemToTable(RouteListItem routeListItem)
+        //{
+        //    Dispatcher.BeginInvoke(new Action(() =>
+        //    {
+        //        RouteList.Insert(0, routeListItem);
+        //    }));
+        //}
 
-        private ObservableCollection<RouteListItem> routeList;
-        public ObservableCollection<RouteListItem> RouteList
-        {
-            get { return routeList; }
-            set
-            {
-                routeList = value;
-                OnPropertyChanged("RouteList");
-            }
-        }
+        //private ObservableCollection<RouteListItem> routeList;
+        //public ObservableCollection<RouteListItem> RouteList
+        //{
+        //    get { return routeList; }
+        //    set
+        //    {
+        //        routeList = value;
+        //        OnPropertyChanged("RouteList");
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
